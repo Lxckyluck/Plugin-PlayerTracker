@@ -1,0 +1,11 @@
+{
+  "MySQL": {
+    "Host": "127.0.0.1",
+    "Port": 3306,
+    "User": "ark_ban",
+    "Password": "CHANGE_ME",
+    "Database": "ark_bans",
+    "Table": "player_events"
+  },
+  "ServerName": "Aberration"
+}
