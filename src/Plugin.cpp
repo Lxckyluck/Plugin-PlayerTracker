@@ -75,20 +75,23 @@ namespace PlayerTracker {
     bool Plugin::GetPosition(APlayerController* pc, double& x, double& y, double& z) {
         if (!pc) return false;
 
-        // Tentative 1: depuis le pawn (character)
-        APawn* pawn = pc->GetPawn();
-        if (pawn) {
-            FVector loc = pawn->GetActorLocation();
+        // Helper local: extrait la position depuis un acteur via son RootComponent.
+        auto extractFromActor = [&](AActor* actor) -> bool {
+            if (!actor) return false;
+            USceneComponent* root = actor->RootComponentField().Get();
+            if (!root) return false;
+            UE::Math::TVector<double>& loc = root->RelativeLocationField();
             x = loc.X; y = loc.Y; z = loc.Z;
             return true;
-        }
+        };
 
-        // Tentative 2: depuis le controller lui-même (cas où le pawn n'est pas spawn)
-        FVector loc = pc->GetActorLocation();
-        if (loc.X != 0.0 || loc.Y != 0.0 || loc.Z != 0.0) {
-            x = loc.X; y = loc.Y; z = loc.Z;
-            return true;
-        }
+        // Tentative 1: depuis le pawn (character du joueur)
+        APawn* pawn = pc->PawnField().Get();
+        if (extractFromActor(pawn)) return true;
+
+        // Tentative 2: depuis le controller lui-même
+        if (extractFromActor(pc)) return true;
+
         return false;
     }
 }
