@@ -1,0 +1,23 @@
+x64/
+Release/
+build/
+out/
+*.obj
+*.pdb
+*.idb
+*.ipdb
+*.iobj
+*.ilk
+*.exp
+*.lib
+*.dll
+*.tlog
+*.log
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Configs avec credentials
+config/config.json

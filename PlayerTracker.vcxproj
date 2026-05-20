@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{C8F0F9B5-3F2C-5F8B-A02F-PLAYERTRACK01}</ProjectGuid>
+    <RootNamespace>PlayerTracker</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <!--
+    Adapte ces chemins à ton installation.
+    AsaApi : on suppose que le SDK est dans le dossier parent (ChaosArk/AsaApi).
+    Si AsaApi est ailleurs, change AsaApiRoot.
+  -->
+  <PropertyGroup>
+    <AsaApiRoot>C:\Users\Administrator\Documents\Code\AsaApi</AsaApiRoot>
+    <MySQLRoot>C:\mysql-8.0.27-winx64\mysql-8.0.27-winx64</MySQLRoot>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;PLAYERTRACKER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+        $(ProjectDir)include;
+        $(AsaApiRoot)\AsaApi\Core\Public;
+        $(AsaApiRoot)\AsaApi\Core\Public\API;
+        $(AsaApiRoot)\AsaApi\Core\Public\API\UE;
+        $(AsaApiRoot)\AsaApi\vcpkg_installed\x64-windows-1439-static-md\x64-windows-1439-static-md\include;
+        $(MySQLRoot)\include;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <Optimization>MaxSpeed</Optimization>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>
+        $(AsaApiRoot)\x64\Release;
+        $(AsaApiRoot)\AsaApi\vcpkg_installed\x64-windows-1439-static-md\x64-windows-1439-static-md\lib;
+        $(MySQLRoot)\lib;
+        %(AdditionalLibraryDirectories)
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>AsaApi.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\Plugin.cpp" />
+    <ClCompile Include="src\Database.cpp" />
+    <ClCompile Include="src\Hooks.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="include\Plugin.h" />
+    <ClInclude Include="include\Database.h" />
+    <ClInclude Include="include\Logger.h" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="config\config.json" />
+    <None Include="config\PluginInfo.json" />
+    <None Include="README.md" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

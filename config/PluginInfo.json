@@ -1,0 +1,9 @@
+{
+  "FullName": "Player Tracker",
+  "Description": "Capture les events join/leave avec EOSID et position, écrit en MySQL pour le bot Discord ChaosArk.",
+  "Version": 1.0,
+  "MinApiVersion": 1.0,
+  "Author": "Lucas",
+  "AutoUpdate": { "OfficialMod": "false", "VersionUrl": "", "DownloadUrl": "" },
+  "Dependencies": []
+}
